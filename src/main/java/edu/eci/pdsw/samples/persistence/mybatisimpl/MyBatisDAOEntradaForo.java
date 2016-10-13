@@ -16,7 +16,7 @@
  */
 package edu.eci.pdsw.samples.persistence.mybatisimpl;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
+
 import edu.eci.pdsw.samples.entities.Comentario;
 import edu.eci.pdsw.samples.entities.EntradaForo;
 import edu.eci.pdsw.samples.entities.Usuario;
