@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="edu.eci.pdsw.samples.persistence.mybatisimpl.mappers.EntradaForoMapper">
+    
+    <resultMap type='Entrada_Foro' id='EntradaForoResult'>
+        <id property='id' column='id'/>
+        <!-- datos normales --> <result property='fechaHora' column = 'fecha_hora'/>
+        <!-- datos normales --><result property = 'comentario' column = 'contenido' />
+        <!-- 1 a muchos --><collection property='respuestas' ofType='Comentario' resultMap='ComentarioResult' columnPrefix='cm_'/>
+       <!-- muchos a muchos --> <association property="autor" javaType="usuario" resultMap='UsuariosResult' columnPrefix='ef_'></association>     
+    </resultMap>
+    <!-- usuarios Map --> 
+    <resultMap type='Usuario' id='UsuarioResult'>
+        <!--id property='propiedadx' column='COLUMNAX'/-->
+        <id property='email' column='email'/>
+        <!--result property='propiedady' column='COLUMNAY'/-->
+        <result property='nombre' column = 'nombre'/>
+        <!--association property="propiedadw" javaType="DetalleDos"></association-->      
+    </resultMap>
+    <!-- Comentario --> 
+    <resultMap type='Comentario' id='ComentarioResult'>
+        <result property='fechayHora' column = 'fecha_hora'/>
+        <!--result property='propiedads' column='COLUMNAS'/-->
+        <result property = 'contenido' column = 'contenido' />
+        <association property="autor" javaType="usuario" resultMap='UsuariosResult' columnPrefix='ucm_'></association>        
+    </resultMap>
+	
+    <select id="getEntradasForo" resultMap="EntradaForoResult">
+        select ef.id, ef.fecha_hora, ef.contenido, cm.id as id, cm.fecha_hora as fecha_hora, cm.contenido as contenido, autor.nombre as nombre, autor.email as email, autorcom.nombre as nombre,  autorcom.email as email
+        from ENTRADAS_FOROS as ef 
+        INNER JOIN COMENTARIOS as cm ON ef.`id` = cm.`ENTRADAS_FOROS_id` 
+        INNER JOIN USUARIOS as autor ON autor.email=ef.USUARIOS_email
+        INNER JOIN USUARIOS as autorcom ON autorcom.email=cm.USUARIOS_email
+     </select>
+    
+    
+  	
+</mapper>
